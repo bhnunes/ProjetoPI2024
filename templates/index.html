@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+   
+
+<div class="formbold-main-wrapper">
+    <div class="formbold-form-wrapper">
+        <form id="loginForm" onsubmit="event.preventDefault(); handleLogin(event);">
+          <div class="formbold-input-flex">
+            <div>
+                <label for="firstname" class="formbold-form-label"> Qual a sua Rua? </label>
+                <input
+                type="text"
+                name="firstname"
+                id="firstname"
+                placeholder=""
+                class="formbold-form-input"
+                />
+            </div>
+            <div>
+                <label for="lastname" class="formbold-form-label"> Qual o seu Bairro? </label>
+                <input
+                type="text"
+                name="lastname"
+                id="lastname"
+                placeholder=""
+                class="formbold-form-input"
+                />
+            </div>
+          </div>
+  
+          <div class="formbold-input-flex">
+            <div>
+                <label for="email" class="formbold-form-label"> Mail </label>
+                <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="jhon@mail.com"
+                class="formbold-form-input"
+                />
+            </div>
+            <div>
+                <label for="phone" class="formbold-form-label"> Phone </label>
+                <input
+                type="text"
+                name="phone"
+                id="phone"
+                placeholder="(319) 555-0115"
+                class="formbold-form-input"
+                />
+            </div>
+          </div>
+  
+          <div class="formbold-input-radio-wrapper">
+              <label for="jobtitle" class="formbold-form-label"> Como você classifica o seu comentário? </label>
+  
+              <div class="formbold-radio-flex">
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                    Problemas na Rua
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+  
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                    Problemas na Iluminação
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+  
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                    Problemas na Vizinhança
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+  
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                    Problemas na Vegetação
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+
+
+                <div class="formbold-radio-group">
+                  <label class="formbold-radio-label">
+                    <input class="formbold-input-radio" type="radio" name="jobtitle" id="jobtitle">
+                    Others
+                    <span class="formbold-radio-checkmark"></span>
+                  </label>
+                </div>
+              </div>
+          </div>
+  
+          <div>
+              <label for="message" class="formbold-form-label"> O que está acontecendo no seu Bairro? </label>
+              <textarea
+                  rows="6"
+                  name="message"
+                  id="message"
+                  placeholder="Escreva seus comentários Aqui"
+                  class="formbold-form-input"
+              ></textarea>
+          </div>
+  
+          <button type="submit" class="formbold-btn">
+              Enviar Reclamação
+          </button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+#Create table:
+
+CREATE TABLE USERINPUT(
+    ID INT AUTO_INCREMENT PRIMARY KEY
+    RUA VARCHAR(250) NOT NULL,
+    BAIRRO VARCHAR(250) NOT NULL,
+    CIDADE VARCHAR(60) NOT NULL,
+    TIPO_RECLAMACAO VARCHAR(60) NOT NULL,
+    COMENTARIO VARCHAR(2000) NOT NULL,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    RESOLVIDO BOOLEAN,
+    RESOLVIDO_AT TIMESTAMP NULL
+);
+
+----------------------------------------------------------------------------
+
+#Insert Value
+
+INSERT INTO sys.userinput (RUA, BAIRRO, CIDADE, TIPO_RECLAMACAO, COMENTARIO, RESOLVIDO) VALUES ('Your Rua Value', 'Your Bairro Value', 'Your Cidade Value', 'Your Tipo Reclamacao Value', 'Your Comentario Value',true);
+
+----------------------------------------------------------------------------
+
+#Update Status of RESOLVIDO
+
+UPDATE sys.userinput SET [RESOLVIDO]=true WHERE ID=1 ;
+
+----------------------------------------------------------------------------
+
+#Trigger for Resolvido 
+
+DELIMITER $$
+CREATE TRIGGER update_resolvido_at
+BEFORE UPDATE ON sys.userinput
+FOR EACH ROW
+BEGIN
+    IF NEW.RESOLVIDO = TRUE THEN
+        SET NEW.RESOLVIDO_AT = CURRENT_TIMESTAMP;
+    ELSE
+        SET NEW.RESOLVIDO_AT = NULL;
+    END IF;
+END$$
+DELIMITER ;
+
+
