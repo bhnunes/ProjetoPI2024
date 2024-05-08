@@ -1,30 +1,92 @@
 body, html {
   margin: 0;
   padding: 0;
+  font-family: 'Arial', sans-serif; /* Adicionando uma fonte */
 }
 
 .navbar {
   display: flex;
   justify-content: space-around;
-  background-color: #f2f2f2; /* Example background color */
+  background-color: #4CAF50; /* Mudando a cor de fundo da barra de navegação */
+  color: white; /* Mudando a cor do texto da barra de navegação */
+  padding: 15px;
 }
 
+.navbar a {
+  color: white; /* Mantendo os links na cor branca */
+  text-decoration: none; /* Removendo o sublinhado dos links */
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+/* Estilizando os botões */
 .button {
-  padding: 10px;
+  padding: 10px 20px;
   border: none;
-  background-color: #4CAF50; /* Example button color */
+  background-color: #008CBA; /* Mudando a cor do botão */
   color: white;
+  border-radius: 5px; /* Adicionando bordas arredondadas */
+  cursor: pointer; /* Mudando o cursor para indicar que é clicável */
 }
 
+/* Estilizando os alertas */
 .alert {
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
   border-radius: 4px;
+  text-align: center;
 }
 
 .alert-success {
   color: #3c763d;
   background-color: #dff0d8;
   border-color: #d6e9c6;
+}
+
+/* Estilizando o formulário */
+form {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+}
+
+.display-flex img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px; /* Espaçamento acima da imagem */
 }

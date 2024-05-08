@@ -3,8 +3,12 @@
 {% block title %}APP Boca No Trombone{% endblock %}
 
 {% block content %}
-    <h1>Boca No Trombone</h1>
-    <h1>Seu APP de Consciência Social</h1>
-    <a href="/formulario">Faça uma Reclamação</a>
-    <a href="/dashboard">Ver Dashboard</a>
+<h1>Boca No Trombone <img src="{{ url_for('static', filename='trombone.png') }}" alt="Trombone" style="width: 50px; height: auto;"></h1>
+    <h2>Seu APP de Consciência Social</h2>
+    <div style="display: flex; justify-content: space-around; align-items: center;">
+        <a href="/formulario" class="button">Faça uma Reclamação</a>
+        <img src="{{ url_for('static', filename='Boca_no_trombone.jpg') }}" alt="Boca no Trombone" style="width: 100px; height: auto; border-radius: 50%;">  
+        <a href="/dashboard" class="button">Ver Dashboard</a>
+        <img src="{{ url_for('static', filename='Dashboard.jpg') }}" alt="Dashboard" style="width: 100px; height: auto; border-radius: 50%;">
+    </div>
 {% endblock %}
