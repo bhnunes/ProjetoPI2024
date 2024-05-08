@@ -31,13 +31,14 @@ h2 {
 /* Estilizando os botões */
 .button {
   padding: 10px 20px;
-  margin-top: 10px; /* Adicionando margem acima do botão */
-  margin-bottom: 10px; /* Adicionando margem abaixo do botão */
+  margin-top: 10px;
+  margin-bottom: 10px;
   border: none;
-  background-color: #008CBA; /* Mudando a cor do botão */
+  background-color: #008CBA;
   color: white;
-  border-radius: 5px; /* Adicionando bordas arredondadas */
-  cursor: pointer; /* Mudando o cursor para indicar que é clicável */
+  border-radius: 5px;
+  cursor: pointer;
+  width: 200px; /* Set a fixed width for the buttons */
 }
 
 /* Estilizando os alertas */
@@ -90,19 +91,33 @@ input[type="submit"] {
 .display-container {
   display: flex;
   justify-content: center;
-  padding: 150px;
-}
-
-.display-flex img,
-.display-flex .button {
-  margin-left: auto; /* Alinhando à direita */
-  margin-right: auto; /* Alinhando à esquerda */
+  padding: 20px;
 }
 
 .display-flex {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+}
+
+.display-flex > div {
+  margin-left: 300px; /* Add margin between button/image pairs */
+  margin-right: 300px;
+}
+
+.display-flex img,
+.display-flex .button {
+  margin-left: auto; /* Align button/image pairs to the right */
+  margin-right: auto; /* Align button/image pairs to the left */
+}
+
+.display-flex img:first-child,
+.display-flex .button:first-child {
+  margin-left: 0; /* Remove margin on the left for the first image/button */
+}
+
+.display-flex img:last-child,
+.display-flex .button:last-child {
+  margin-right: 0; /* Remove margin on the right for the last image/button */
 }
 
 
