@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="static\scripts.js"></script>
+</head>
+<body>
+    <nav>
+        <a href="/">Home</a> |
+        <a href="/dashboard">Dashboard</a> |
+        <a href="/formulario">Formulário</a>
+    </nav>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+</html>

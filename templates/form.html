@@ -1,10 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Formulário de Reclamação</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block title %}Formulário de Reclamação{% endblock %}
+
+{% block content %}
+
     <h1>Formulário de Reclamação</h1>
     <form action="/submeter" method="POST">
         <label for="rua">Rua:</label>
@@ -33,6 +32,4 @@
         <input type="submit" value="Enviar Reclamação">
         <p id="mensagem-sucesso" style="display:none;"></p> 
     </form>
-</body>
-<script src="static\scripts.js"></script> </body>
-</html>
+{% endblock %}

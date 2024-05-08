@@ -1,11 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Página Inicial</title>
-</head>
-<body>
-    <h1>Bem-vindo ao Sistema de Reclamações</h1>
+{% extends "base.html" %}
+
+{% block title %}APP Boca No Trombone{% endblock %}
+
+{% block content %}
+    <h1>Boca No Trombone</h1>
+    <h1>Seu APP de Consciência Social</h1>
     <a href="/formulario">Faça uma Reclamação</a>
     <a href="/dashboard">Ver Dashboard</a>
-</body>
-</html>
+{% endblock %}
