@@ -10,6 +10,7 @@ body, html {
   background-color: #4CAF50; /* Mudando a cor de fundo da barra de navegação */
   color: white; /* Mudando a cor do texto da barra de navegação */
   padding: 15px;
+  margin: 20px;
 }
 
 .navbar a {
@@ -30,6 +31,8 @@ h2 {
 /* Estilizando os botões */
 .button {
   padding: 10px 20px;
+  margin-top: 10px; /* Adicionando margem acima do botão */
+  margin-bottom: 10px; /* Adicionando margem abaixo do botão */
   border: none;
   background-color: #008CBA; /* Mudando a cor do botão */
   color: white;
@@ -84,9 +87,23 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-.display-flex img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 10px; /* Espaçamento acima da imagem */
+.display-container {
+  display: flex;
+  justify-content: center;
+  padding: 150px;
 }
+
+.display-flex img,
+.display-flex .button {
+  margin-left: auto; /* Alinhando à direita */
+  margin-right: auto; /* Alinhando à esquerda */
+}
+
+.display-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+
