@@ -1,25 +1,25 @@
-// script.js
-function handleLogin(event) {
-    event.preventDefault(); // Prevent the default form submission
-    // var username = document.getElementById('username').value;
-    // var password = document.getElementById('password').value;
+$(document).ready(function() {
+    $('form').submit(function(event) {
+        event.preventDefault(); // Impedir o envio padrão do formulário
 
-    // Send an AJAX request to the Flask route
-    $.ajax({
-        type: "POST",
-        url: '/login', // The Flask route
-        data: {
-            //username: username,
-            //password: password
-        },
-        success: function(response) {
-            // Manually redirect to the dashboard page
-            window.location.href = "/dashboard";
-        },
-        error: function(error) {
-            // Handle any errors
-            console.log(error);
-        }
+        var formData = $(this).serialize(); // Obter os dados do formulário
+
+        $.ajax({
+            type: "POST",
+            url: "/submeter",
+            data: formData,
+            dataType: "json",
+            success: function(response) {
+                // Exibir a mensagem de sucesso
+                $("#mensagem-sucesso").text(response.mensagem).show();
+                // Ocultar a mensagem após 5 segundos
+                setTimeout(function() {
+                    $("#mensagem-sucesso").fadeOut();
+                }, 2000);
+
+                    // Limpar o formulário
+                    $('form')[0].reset();
+            }
+        });
     });
-    
-}
+});
