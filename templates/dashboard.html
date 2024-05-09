@@ -8,8 +8,8 @@
     <div class="col-md-6">
         <!-- Quadrante esquerdo superior - Mapa de Calor -->
         <div class="card">
-            <div class="card-body">
-                <h2>Mapa de Calor</h2>
+            <div class="card-body centralizado">
+                <h2>Mapa de Ocorrências em Americana</h2>
                 {{ mapa | safe }}
             </div>
         </div>
@@ -17,9 +17,9 @@
     <div class="col-md-6">
         <!-- Quadrante direito superior - Wordcloud -->
         <div class="card">
-            <div class="card-body">
+            <div class="card-body centralizado">
                 <h2>Wordcloud</h2>
-                <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Wordcloud">
+                <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Wordcloud" style="margin-top: 100px;">
             </div>
         </div>
     </div>
@@ -29,24 +29,24 @@
     <div class="col-md-6">
         <!-- Quadrante esquerdo inferior - Últimos Casos -->
         <div class="card">
-            <div class="card-body">
-                <h2>Últimos Casos</h2>
+            <div class="card-body centralizado">
+                <h2>Últimos Casos Submetidos</h2>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Rua</th>
-                            <th>Bairro</th>
-                            <th>Tipo de Reclamação</th>
-                            <th>Data</th>
+                            <th class="text-center">Rua</th>
+                            <th class="text-center">Bairro</th>
+                            <th class="text-center">Tipo de Reclamação</th>
+                            <th class="text-center">Data</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for rua, bairro, tipo, _, data, _, _ in latest_cases %}
                         <tr>
-                            <td>{{ rua }}</td>
-                            <td>{{ bairro }}</td>
-                            <td>{{ tipo }}</td>
-                            <td>{{ data }}</td>
+                            <td class="text-center">{{ rua }}</td>
+                            <td class="text-center">{{ bairro }}</td>
+                            <td class="text-center">{{ tipo }}</td>
+                            <td class="text-center">{{ data }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -57,8 +57,8 @@
     <div class="col-md-6">
         <!-- Quadrante direito inferior - Tipos de Reclamações -->
         <div class="card">
-            <div class="card-body">
-                <h2>Tipos de Reclamações</h2>
+            <div class="card-body centralizado">
+                <h2>Contagem de Reclamações</h2>
                 {{ plot_bar | safe }}
             </div>
         </div>

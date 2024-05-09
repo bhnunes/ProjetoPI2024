@@ -84,7 +84,7 @@ def dashboard():
     for _, row in df.iterrows():
         folium.Marker(
             location=[row['LATITUDE'], row['LONGITUDE']],
-            popup=f"<b>Tipo:</b> {row['TIPO_RECLAMACAO']}<br><b>Comentário:</b> {row['COMENTARIO']}",
+            popup=f"<center><b>Tipo:</b> {row['TIPO_RECLAMACAO']}<br><b>Comentário:</b> {row['COMENTARIO']}</center>",
             tooltip=row['BAIRRO']
         ).add_to(mapa)
 
@@ -110,13 +110,14 @@ def dashboard():
     fig_bar = px.bar(x=list(complaint_counts.keys()), y=list(complaint_counts.values()))
 
     fig_bar.update_layout(
+    title_x=0.5, 
     xaxis_title="",  # Remove o título do eixo x
     yaxis_title=""   # Remove o título do eixo y
     )
 
-    # Opcional: Remover ticks dos eixos
     fig_bar.update_layout(
-    yaxis_tickvals=[]   # Remove os ticks do eixo y
+    xaxis_tickangle=-45,  # Rotaciona os labels do eixo x
+    yaxis_tickvals=[]
     )
 
     return render_template('dashboard.html', 

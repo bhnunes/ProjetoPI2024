@@ -24,6 +24,13 @@ h1 {
   color: #333;
 }
 
+
+h2 {
+  text-align: center;
+  color:#f56042 ;
+}
+
+
 h3 {
   text-align: center;
   color: #333;
@@ -121,6 +128,7 @@ input[type="submit"] {
   transform: translateX(-75%);
 }
 
-
-
+.centralizado {
+  text-align: center;
+}
 
