@@ -3,6 +3,12 @@ from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
 import secrets
+import folium
+from wordcloud import WordCloud
+import plotly.express as px
+import pandas as pd
+import base64
+from io import BytesIO
 
 
 load_dotenv()
@@ -64,10 +70,50 @@ def submeter():
 # Rota para o dashboard
 @app.route('/dashboard')
 def dashboard():
-    # Lógica para buscar dados do banco de dados e gerar gráficos
-    # ...
+    cursor = mysql.connection.cursor()
+    cursor.execute("""SELECT A.RUA, A.BAIRRO, A.TIPO_RECLAMACAO, A.COMENTARIO, A.CREATED_AT, B.LATITUDE, B.LONGITUDE 
+                      FROM sys.userinput as A 
+                      INNER JOIN sys.locations as B 
+                      ON A.BAIRRO=B.BAIRRO and A.RUA=B.RUA""")
+    data = cursor.fetchall()
+    cursor.close()
 
-    return render_template('dashboard.html') #, dados_para_grafico=dados)
+    # Mapa de calor
+    df = pd.DataFrame(data, columns=['RUA', 'BAIRRO', 'TIPO_RECLAMACAO', 'COMENTARIO', 'CREATED_AT', 'LATITUDE', 'LONGITUDE'])
+    mapa = folium.Map(location=[df['LATITUDE'].mean(), df['LONGITUDE'].mean()], zoom_start=10)
+    for _, row in df.iterrows():
+        folium.Marker(
+            location=[row['LATITUDE'], row['LONGITUDE']],
+            popup=f"<b>Tipo:</b> {row['TIPO_RECLAMACAO']}<br><b>Comentário:</b> {row['COMENTARIO']}",
+            tooltip=row['BAIRRO']
+        ).add_to(mapa)
+
+    
+    # Wordcloud
+    text = " ".join(comentario for _, _, _, comentario, _, _, _ in data)
+    wordcloud = WordCloud(background_color="white").generate(text)
+    
+    # Converter a imagem para bytes
+    image_bytes = BytesIO()
+    wordcloud.to_image().save(image_bytes, format='PNG')
+    image_bytes.seek(0)
+    wordcloud_image = base64.b64encode(image_bytes.getvalue()).decode()
+
+    # Tabela com os últimos 5 casos
+    latest_cases = sorted(data, key=lambda x: x[4], reverse=True)[:5]
+
+    # Gráfico de barras
+    complaint_counts = {}
+    for _, _, complaint_type, _, _, _, _ in data:
+        complaint_counts[complaint_type] = complaint_counts.get(complaint_type, 0) + 1
+    
+    fig_bar = px.bar(x=list(complaint_counts.keys()), y=list(complaint_counts.values()))
+
+    return render_template('dashboard.html', 
+                           mapa=mapa._repr_html_(),
+                           wordcloud_image=wordcloud_image,
+                           latest_cases=latest_cases,
+                           plot_bar=fig_bar.to_html(full_html=True))
 
 if __name__ == '__main__':
     app.run(debug=True)
