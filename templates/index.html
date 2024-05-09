@@ -3,24 +3,16 @@
 {% block title %}APP Boca No Trombone{% endblock %}
 
 {% block content %}
-<h1>Boca No Trombone <img src="{{ url_for('static', filename='trombone.png') }}" alt="Trombone" style="width: 50px; height: auto;"></h1>
-<h2>Seu APP de Consciência Social</h2>
-<div class="display-container">
-    <div class="display-flex">
-      <div>
-        <a href="/formulario" class="button">Faça uma Reclamação</a>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-          <img src="{{ url_for('static', filename='Boca_no_trombone.jpg') }}" alt="Boca no Trombone" style="width: 100px; height: auto; border-radius: 50%; margin-bottom: 10px;">
-        </div>
-      </div>
-      <div>
-        <a href="/dashboard" class="button">Ver Dashboard</a>
-        <div style="display: flex; flex-direction: column; align-items: center;">
-          <img src="{{ url_for('static', filename='Dashboard.jpg') }}" alt="Dashboard" style="width: 100px; height: auto; border-radius: 50%; margin-bottom: 10px;">
-        </div>
-      </div>
-    </div>
-  </div>   
+<h1>Boca No Trombone <img src="{{ url_for('static', filename='trombone.png') }}" alt="Trombone" style="width: 80px; height: auto;"></h1>
+<h3>Seu APP de Consciência Social</h3>
+<div class="container-25">
+  <a href="/formulario" class="button">Faça uma Reclamação</a>
+  <img src="{{ url_for('static', filename='Boca_no_trombone.jpg') }}" alt="Boca no Trombone" style="width: 200px; border-radius: 50%; margin-bottom: 10px;" class="image">
+</div>
+<div class="container-75">
+  <a href="/dashboard" class="button">Ver Dashboard</a>
+  <img src="{{ url_for('static', filename='Dashboard.jpg') }}" alt="Dashboard" style="width: 200px; border-radius: 50%; margin-bottom: 10px;" class="image">
+</div> 
 {% endblock %}
 
 

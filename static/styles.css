@@ -23,7 +23,7 @@ h1 {
   color: #333;
 }
 
-h2 {
+h3 {
   text-align: center;
   color: #333;
 }
@@ -31,14 +31,15 @@ h2 {
 /* Estilizando os botões */
 .button {
   padding: 10px 20px;
-  margin-top: 10px;
+  margin-top: 50px;
   margin-bottom: 10px;
   border: none;
   background-color: #008CBA;
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  width: 200px; /* Set a fixed width for the buttons */
+  width: 180px; /* Set a fixed width for the buttons */
+  text-align: center;
 }
 
 /* Estilizando os alertas */
@@ -88,37 +89,36 @@ input[type="submit"] {
   cursor: pointer;
 }
 
-.display-container {
+/* Containers */
+.container-25,.container-75 {
   display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
-.display-flex {
-  display: flex;
+  flex-direction: column;
   align-items: center;
+  position: absolute;
 }
 
-.display-flex > div {
-  margin-left: 300px; /* Add margin between button/image pairs */
-  margin-right: 300px;
+/* Buttons */
+.button {
+  margin-bottom: 10px; /* Adjust based on your needs */
 }
 
-.display-flex img,
-.display-flex .button {
-  margin-left: auto; /* Align button/image pairs to the right */
-  margin-right: auto; /* Align button/image pairs to the left */
+/* Images */
+.image {
+  max-width: 100%; /* Ensure the image does not overflow its container */
+  height: auto; /* Maintain aspect ratio */
 }
 
-.display-flex img:first-child,
-.display-flex .button:first-child {
-  margin-left: 0; /* Remove margin on the left for the first image/button */
+/* Positioning */
+.container-25 {
+  left: 25%;
+  transform: translateX(-25%);
 }
 
-.display-flex img:last-child,
-.display-flex .button:last-child {
-  margin-right: 0; /* Remove margin on the right for the last image/button */
+.container-75 {
+  left: 75%;
+  transform: translateX(-75%);
 }
+
 
 
 
