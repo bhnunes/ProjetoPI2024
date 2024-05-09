@@ -25,10 +25,27 @@ mysql = MySQL(app)
 def index():
     return render_template('index.html')
 
+
+# Rota para buscar ruas de um bairro
+@app.route('/buscar_ruas')
+def buscar_ruas():
+    bairro = request.args.get('bairro')
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT DISTINCT RUA FROM sys.locations WHERE BAIRRO=%s ORDER BY RUA ASC", (bairro,))
+    ruas = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    return jsonify(ruas)
+
+
 # Rota para o formulário de reclamação
 @app.route('/formulario')
 def formulario():
-    return render_template('form.html')
+    cursor = mysql.connection.cursor()
+    cursor.execute("Select distinct BAIRRO from sys.locations order by BAIRRO ASC;")
+    bairros = [row[0] for row in cursor.fetchall()]
+    cursor.close()
+    return render_template('form.html', bairros=bairros)
+
 
 # Rota para submeter a reclamação
 @app.route('/submeter', methods=['POST'])
@@ -38,13 +55,10 @@ def submeter():
     cidade = request.form['cidade']
     categoria = request.form['categoria']
     descricao = request.form['descricao']
-
     cursor = mysql.connection.cursor()
     cursor.execute("INSERT INTO sys.userinput (RUA, BAIRRO, CIDADE, TIPO_RECLAMACAO, COMENTARIO) VALUES (%s, %s, %s, %s,%s)", (rua, bairro, cidade, categoria, descricao))
     mysql.connection.commit()
     cursor.close()
-
-
     return jsonify({"mensagem": "Reclamação registrada com sucesso!"})
 
 # Rota para o dashboard

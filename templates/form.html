@@ -6,12 +6,18 @@
 
     <h1>Formulário de Reclamação</h1>
     <form action="/submeter" method="POST">
-        <label for="rua">Rua</label>
-        <input type="text" name="rua" id="rua" required><br>
-        
-        <label for="bairro">Bairro</label>
-        <input type="text" name="bairro" id="bairro" required><br>
 
+        <label for="bairro">Bairro</label>
+        <select name="bairro" id="bairro" required>
+            {% for bairro in bairros %}
+                <option value="{{ bairro }}">{{ bairro }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="rua">Rua</label>
+        <select name="rua" id="rua">
+            </select><br>
+        
         <label for="cidade">Cidade</label>
         <input type="text" name="cidade" id="cidade" required><br>
         
