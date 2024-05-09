@@ -45,7 +45,7 @@ h3 {
 }
 
 /* Estilizando os alertas */
-.alert {
+.alert-success {
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
