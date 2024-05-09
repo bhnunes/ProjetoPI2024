@@ -109,6 +109,16 @@ def dashboard():
     
     fig_bar = px.bar(x=list(complaint_counts.keys()), y=list(complaint_counts.values()))
 
+    fig_bar.update_layout(
+    xaxis_title="",  # Remove o título do eixo x
+    yaxis_title=""   # Remove o título do eixo y
+    )
+
+    # Opcional: Remover ticks dos eixos
+    fig_bar.update_layout(
+    yaxis_tickvals=[]   # Remove os ticks do eixo y
+    )
+
     return render_template('dashboard.html', 
                            mapa=mapa._repr_html_(),
                            wordcloud_image=wordcloud_image,
