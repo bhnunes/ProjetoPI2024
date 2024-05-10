@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Encerrar Reclamação{% endblock %}
+
+{% block content %}
+
+    <h1>Encerrar Reclamação</h1>
+    <form action="/encerrarTicket" method="POST">        
+        <label for="ticketReclamacao">Número do Ticket da reclamação a ser encerrada:</label>
+        <textarea name="ticketReclamacao" id="ticketReclamacao" required></textarea><br>
+
+        <input type="submit" value="Encerrar Reclamação">
+        <p id="mensagem-sucesso" style="display:none;" class="alert-success"></p> 
+    </form>
+{% endblock %}

@@ -126,5 +126,23 @@ def dashboard():
                            latest_cases=latest_cases,
                            plot_bar=fig_bar.to_html(full_html=True))
 
+
+# Rota para o encerrar reclamação
+@app.route('/encerrar')
+def encerrarTicket():
+    return render_template('encerrar.html')
+
+
+# Rota para encerrar ticket a reclamação
+@app.route('/encerrarTicket', methods=['POST'])
+def submeterEncerrarTicket():
+    ticket = request.form['ticketReclamacao']
+    cursor = mysql.connection.cursor()
+    cursor.execute("UPDATE sys.userinput SET RESOLVIDO=True WHERE ID = %s", (ticket))
+    mysql.connection.commit()
+    cursor.close()
+    return jsonify({"mensagem": "Reclamação Encerrada com sucesso!"})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
