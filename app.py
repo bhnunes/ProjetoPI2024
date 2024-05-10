@@ -105,8 +105,6 @@ def dashboard():
     text = " ".join(comentario for _, _, _, comentario, _, _, _ in data)
 
     wordcloud = WordCloud(background_color="white", width=500, height=300, color_func=blue_red_color_func).generate(text)
-
-    #wordcloud = WordCloud(background_color="white",width=500, height=300).generate(text)
     
     # Converter a imagem para bytes
     image_bytes = BytesIO()
