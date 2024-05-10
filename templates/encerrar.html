@@ -4,6 +4,8 @@
 
 {% block content %}
 
+<script src="{{ url_for('static', filename='encerrar_script.js') }}"></script>
+
     <h1>Encerrar Reclamação</h1>
     <form action="/encerrarTicket" method="POST">        
         <label for="ticketReclamacao">Número do Ticket da reclamação a ser encerrada:</label>

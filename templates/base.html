@@ -9,16 +9,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
     <nav>
-        <a href="/">Home</a> |
-        <a href="/dashboard">Dashboard</a> |
+        <a href="/">Home</a>
         <a href="/formulario">Reclamação</a>
-        <a href="/encerrar">Encerrar Ticket</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="/encerrar">Encerrar Reclamação</a>
     </nav>
     {% block content %}{% endblock %}
 </body>

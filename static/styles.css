@@ -7,7 +7,7 @@ body, html {
 nav {
   display: flex;
   justify-content: space-around;
-  background-color: #008CBA; /* Mudando a cor de fundo da barra de navegação */
+  background-color: #C63925; /* Mudando a cor de fundo da barra de navegação */
   color: white; /* Mudando a cor do texto da barra de navegação */
   padding: 10px;
   margin: 0px;
@@ -17,6 +17,7 @@ nav a {
   color: white; /* Mantendo os links na cor branca */
   text-decoration: none; /* Removendo o sublinhado dos links */
   font-weight:bold;
+  font-size: medium;
 }
 
 h1 {
@@ -27,7 +28,7 @@ h1 {
 
 h2 {
   text-align: center;
-  color:#f56042 ;
+  color:#C63925 ;
 }
 
 
@@ -42,7 +43,7 @@ h3 {
   margin-top: 50px;
   margin-bottom: 10px;
   border: none;
-  background-color: #008CBA;
+  background-color: #C63925;
   color: white;
   border-radius: 5px;
   cursor: pointer;
@@ -93,7 +94,7 @@ select {
 }
 
 input[type="submit"] {
-  background-color: #4CAF50;
+  background-color: #008CBA;
   color: white;
   cursor: pointer;
 }
@@ -130,5 +131,14 @@ input[type="submit"] {
 
 .centralizado {
   text-align: center;
+}
+
+.rodape {
+  text-align: center;
+  position:fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #f5f5f5; /* Cor de fundo do rodapé (opcional) */
+  padding: 10px 0;
 }
 

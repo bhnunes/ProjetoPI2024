@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_mysqldb import MySQL
 from dotenv import load_dotenv
 import os
@@ -9,9 +9,13 @@ import plotly.express as px
 import pandas as pd
 import base64
 from io import BytesIO
+import random
 
 
 load_dotenv()
+
+def blue_red_color_func(word, font_size, position, orientation, random_state=None, **kwargs):
+    return "hsl(200, 80%%, %d%%)" % random.randint(40, 60)
 
 app = Flask(__name__)
 
@@ -56,16 +60,24 @@ def formulario():
 # Rota para submeter a reclamação
 @app.route('/submeter', methods=['POST'])
 def submeter():
-    rua = request.form['rua']
-    bairro = request.form['bairro']
-    cidade = request.form['cidade']
-    categoria = request.form['categoria']
-    descricao = request.form['descricao']
-    cursor = mysql.connection.cursor()
-    cursor.execute("INSERT INTO sys.userinput (RUA, BAIRRO, CIDADE, TIPO_RECLAMACAO, COMENTARIO) VALUES (%s, %s, %s, %s,%s)", (rua, bairro, cidade, categoria, descricao))
-    mysql.connection.commit()
-    cursor.close()
-    return jsonify({"mensagem": "Reclamação registrada com sucesso!"})
+    try:
+        rua = request.form['rua']
+        bairro = request.form['bairro']
+        cidade = request.form['cidade']
+        categoria = request.form['categoria']
+        descricao = request.form['descricao']
+        cursor = mysql.connection.cursor()
+        cursor.execute("INSERT INTO sys.userinput (RUA, BAIRRO, CIDADE, TIPO_RECLAMACAO, COMENTARIO) VALUES (%s, %s, %s, %s,%s)", (rua, bairro, cidade, categoria, descricao))
+        mysql.connection.commit()
+
+        # Get the last inserted ID
+        cursor.execute("SELECT LAST_INSERT_ID()")
+        last_inserted_id = cursor.fetchone()[0]
+        return jsonify({"mensagem": "Reclamação registrada com sucesso! - Seu Ticket # é "+str(last_inserted_id)})
+    except Exception as e:
+        return jsonify({"mensagem": "Há um problema com o servidor. Lamentamos! - Código do erro : "+str(e)})
+    finally:
+        cursor.close()
 
 # Rota para o dashboard
 @app.route('/dashboard')
@@ -74,7 +86,7 @@ def dashboard():
     cursor.execute("""SELECT A.RUA, A.BAIRRO, A.TIPO_RECLAMACAO, A.COMENTARIO, A.CREATED_AT, B.LATITUDE, B.LONGITUDE 
                       FROM sys.userinput as A 
                       INNER JOIN sys.locations as B 
-                      ON A.BAIRRO=B.BAIRRO and A.RUA=B.RUA""")
+                      ON A.BAIRRO=B.BAIRRO and A.RUA=B.RUA WHERE A.RESOLVIDO is null """)
     data = cursor.fetchall()
     cursor.close()
 
@@ -91,7 +103,10 @@ def dashboard():
     
     # Wordcloud
     text = " ".join(comentario for _, _, _, comentario, _, _, _ in data)
-    wordcloud = WordCloud(background_color="white").generate(text)
+
+    wordcloud = WordCloud(background_color="white", width=500, height=300, color_func=blue_red_color_func).generate(text)
+
+    #wordcloud = WordCloud(background_color="white",width=500, height=300).generate(text)
     
     # Converter a imagem para bytes
     image_bytes = BytesIO()
@@ -106,19 +121,26 @@ def dashboard():
     complaint_counts = {}
     for _, _, complaint_type, _, _, _, _ in data:
         complaint_counts[complaint_type] = complaint_counts.get(complaint_type, 0) + 1
+
+    # Ordena as contagens do maior para o menor
+    sorted_counts = sorted(complaint_counts.items(), key=lambda item: item[1], reverse=True)
+    complaint_types = [item[0] for item in sorted_counts]
+    complaint_values = [item[1] for item in sorted_counts]
+
     
-    fig_bar = px.bar(x=list(complaint_counts.keys()), y=list(complaint_counts.values()))
+    fig_bar = px.bar(x=complaint_types, y=complaint_values,
+                 text=complaint_values)
 
     fig_bar.update_layout(
-    title_x=0.5, 
+    title_x=0.5,
     xaxis_title="",  # Remove o título do eixo x
-    yaxis_title=""   # Remove o título do eixo y
-    )
-
-    fig_bar.update_layout(
+    yaxis_title="",  # Remove o título do eixo y
+    plot_bgcolor='white',  # Define o fundo do gráfico para branco
     xaxis_tickangle=-45,  # Rotaciona os labels do eixo x
     yaxis_tickvals=[]
     )
+
+    fig_bar.update_traces(marker_color='#008CBA',textposition='auto', textfont_size=20, textfont_weight='bold')  # Estilo do texto
 
     return render_template('dashboard.html', 
                            mapa=mapa._repr_html_(),
@@ -136,13 +158,22 @@ def encerrarTicket():
 # Rota para encerrar ticket a reclamação
 @app.route('/encerrarTicket', methods=['POST'])
 def submeterEncerrarTicket():
-    ticket = request.form['ticketReclamacao']
-    cursor = mysql.connection.cursor()
-    cursor.execute("UPDATE sys.userinput SET RESOLVIDO=True WHERE ID = %s", (ticket))
-    mysql.connection.commit()
-    cursor.close()
-    return jsonify({"mensagem": "Reclamação Encerrada com sucesso!"})
-
+    try:
+        ticket = request.form['ticketReclamacao']
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT ID FROM sys.userinput WHERE ID = %s AND RESOLVIDO is null" , (ticket,))
+        IDs=cursor.fetchall()
+        if len(IDs)!=0:
+            cursor.execute("UPDATE sys.userinput SET RESOLVIDO=True WHERE ID = %s AND RESOLVIDO is null" , (ticket,))
+            mysql.connection.commit()
+            cursor.close()
+            return jsonify({"mensagem": "Reclamação Encerrada com sucesso!"})
+        else:
+            return jsonify({"mensagem": "Esse Ticket Não existe no sistema ou já foi fechado! Por favor verifique"})    
+    except Exception as e:
+        return jsonify({"mensagem": "Há um problema com o servidor. Lamentamos! - Código do erro : "+str(e)})
+    finally:
+        cursor.close()
 
 if __name__ == '__main__':
     app.run(debug=True)

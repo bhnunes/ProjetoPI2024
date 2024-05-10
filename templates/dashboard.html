@@ -2,14 +2,12 @@
 {% block title %}Dashboard de Reclamações{% endblock %}
 {% block content %}
 
-<h1>Dashboard de Reclamações</h1>
-
 <div class="row">
     <div class="col-md-6">
         <!-- Quadrante esquerdo superior - Mapa de Calor -->
         <div class="card">
             <div class="card-body centralizado">
-                <h2>Mapa de Ocorrências em Americana</h2>
+                <h2>Mapa de Ocorrências em Americana 🔥</h2>
                 {{ mapa | safe }}
             </div>
         </div>
@@ -18,8 +16,8 @@
         <!-- Quadrante direito superior - Wordcloud -->
         <div class="card">
             <div class="card-body centralizado">
-                <h2>Wordcloud</h2>
-                <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Wordcloud" style="margin-top: 100px;">
+                <h2>Nuvem de Palavras ☁️</h2>
+                <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Wordcloud" style="margin-top: 30px;">
             </div>
         </div>
     </div>
@@ -30,8 +28,8 @@
         <!-- Quadrante esquerdo inferior - Últimos Casos -->
         <div class="card">
             <div class="card-body centralizado">
-                <h2>Últimos Casos Submetidos</h2>
-                <table class="table">
+                <h2>Últimos Casos Submetidos ⏰</h2>
+                <table class="table" style="margin-top: 40px;">
                     <thead>
                         <tr>
                             <th class="text-center">Rua</th>
@@ -58,7 +56,7 @@
         <!-- Quadrante direito inferior - Tipos de Reclamações -->
         <div class="card">
             <div class="card-body centralizado">
-                <h2>Contagem de Reclamações</h2>
+                <h2>Contagem de Reclamações Abertas 🧮</h2>
                 {{ plot_bar | safe }}
             </div>
         </div>

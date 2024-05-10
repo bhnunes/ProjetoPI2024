@@ -33,7 +33,7 @@ function enviarFormulario() {
                 $("#mensagem-sucesso").text(response.mensagem).show();
                 setTimeout(function() {
                     $("#mensagem-sucesso").fadeOut();
-                }, 2000);
+                }, 15000);
                 $('form')[0].reset();
                 definirCidade();
             }
