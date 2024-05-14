@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Dashboard de Reclamações{% endblock %}
+{% block content %}
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Quadrante esquerdo superior - Mapa de Calor -->
+        <div class="card">
+            <div class="card-body centralizado">
+                <h2>Mapa de Ocorrências em Americana 🔥</h2>
+                {{ mapa | safe }}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Quadrante direito superior - Wordcloud -->
+        <div class="card">
+            <div class="card-body centralizado">
+                <h2>Nuvem de Palavras ☁️</h2>
+                <img src="data:image/png;base64,{{ wordcloud_image }}" alt="Wordcloud" style="margin-top: 30px;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <!-- Quadrante esquerdo inferior - Últimos Casos -->
+        <div class="card">
+            <div class="card-body centralizado">
+                <h2>Últimos Casos Submetidos ⏰</h2>
+                <table class="table" style="margin-top: 40px;">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Rua</th>
+                            <th class="text-center">Bairro</th>
+                            <th class="text-center">Tipo de Reclamação</th>
+                            <th class="text-center">Data</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for case in latest_cases %}
+                        <tr>
+                            <td class="text-center">{{ case['RUA'] }}</td>
+                            <td class="text-center">{{ case['BAIRRO'] }}</td>
+                            <td class="text-center">{{ case['TIPO_RECLAMACAO'] }}</td>
+                            <td class="text-center">{{ case['CREATED_AT'] }}</td> 
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Quadrante direito inferior - Tipos de Reclamações -->
+        <div class="card">
+            <div class="card-body centralizado">
+                <h2>Contagem de Reclamações Abertas 🧮</h2>
+                <img src="data:image/png;base64,{{ plot_bar }}" style="margin-left: -250px; margin-top: 10px;"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

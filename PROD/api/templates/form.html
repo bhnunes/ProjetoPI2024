@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Formulário de Reclamação{% endblock %}
+
+{% block content %}
+
+<script src="{{ url_for('static', filename='scripts.js') }}"></script>
+
+    <h1>Formulário de Reclamação</h1>
+    <form action="/submeter" method="POST">
+
+        <label for="bairro">Bairro</label>
+        <select name="bairro" id="bairro" required>
+            {% for bairro in bairros %}
+                <option value="{{ bairro }}">{{ bairro }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="rua">Rua</label>
+        <select name="rua" id="rua">
+            </select><br>
+        
+        <label for="cidade">Cidade</label>
+        <input type="text" name="cidade" id="cidade" required><br>
+        
+        <label for="categoria">Tipo de Reclamação</label>
+        <select name="categoria" id="categoria">
+            <option value="Problemas nas Vias Urbanas">Problemas nas Vias Urbanas</option>
+            <option value="Problemas na Vizinhança">Problemas na Vizinhança</option>
+            <option value="Problemas Elétricos">Problemas Elétricos</option>
+            <option value="Problemas Hidráulicos">Problemas Hidráulicos</option>
+            <option value="Problemas Sociais">Problemas Sociais</option>
+            <option value="Problemas Ambientais">Problemas Ambientais</option>
+            <option value="Outros Problemas">Outros Problemas</option>
+        </select><br>
+        
+        <label for="descricao">Descreva seu problema aqui</label>
+        <textarea name="descricao" id="descricao" required></textarea><br>
+
+        <input type="submit" value="Enviar Reclamação">
+        <p id="mensagem-sucesso" style="display:none;" class="alert-success"></p> 
+    </form>
+{% endblock %}

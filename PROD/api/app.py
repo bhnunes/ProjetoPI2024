@@ -12,7 +12,6 @@ import matplotlib
 matplotlib.use('Agg')  # Define o backend como 'Agg'
 import matplotlib.pyplot as plt
 import numpy as np
-from datetime import datetime
 
 load_dotenv()
 
@@ -104,7 +103,7 @@ def gerar_dados_dashboard():
                                             textprops=dict(color="w"))
             
                         # Define as cores para cada fatia do gráfico
-            cores = ['#000000', '#008cba', '#00384a', '#c63925', '#dd887c','#99d1e3','#eec4be','#ffffff']
+            cores = ['#a9191b', '#b23032', '#ba4749', '#c35e5f', '#cb7576','#d48c8d','#dda3a4','#e5babb']
             for i, wedge in enumerate(wedges):
                 wedge.set_facecolor(cores[i % len(cores)])  # Define a cor da fatia
             
@@ -143,8 +142,7 @@ def gerar_dados_dashboard():
 
 @app.route('/')
 def index():
-    current_year = datetime.now().year
-    return render_template('index.html',current_year=current_year)
+    return render_template('index.html')
 
 
 # Rota para buscar ruas de um bairro
