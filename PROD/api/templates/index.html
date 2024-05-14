@@ -15,7 +15,10 @@
 </div> 
 
 <footer class="rodape">
-  <p>2024 - Criado por UNIVESP - Todos os direitos reservados</p>
+  <p>{{ current_year }} - Criado para o PI.2024 - UNIVESP - Todos os direitos reservados</p>
+  <a href="https://github.com/bhnunes/ProjetoPI2024" target="_blank">
+    <img src="{{ url_for('static', filename='github.png') }}" alt="Github" style="width: 20px; height: auto;">
+  </a>
 </footer>
 
 {% endblock %}
