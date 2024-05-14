@@ -39,12 +39,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for rua, bairro, tipo, _, data, _, _ in latest_cases %}
+                        {% for case in latest_cases %}
                         <tr>
-                            <td class="text-center">{{ rua }}</td>
-                            <td class="text-center">{{ bairro }}</td>
-                            <td class="text-center">{{ tipo }}</td>
-                            <td class="text-center">{{ data }}</td>
+                            <td class="text-center">{{ case['RUA'] }}</td>
+                            <td class="text-center">{{ case['BAIRRO'] }}</td>
+                            <td class="text-center">{{ case['TIPO_RECLAMACAO'] }}</td>
+                            <td class="text-center">{{ case['CREATED_AT'] }}</td> 
                         </tr>
                         {% endfor %}
                     </tbody>

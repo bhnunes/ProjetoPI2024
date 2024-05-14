@@ -3,12 +3,13 @@ function atualizarRuas() {
     const bairroSelect = document.getElementById('bairro');
     const ruaSelect = document.getElementById('rua');
 
-    bairroSelect.addEventListener('change', () => {
+    // Função para buscar as ruas e preencher o dropdown
+    function buscarRuasEPreencher() {
         const bairro = bairroSelect.value;
         fetch(`/buscar_ruas?bairro=${bairro}`)
             .then(response => response.json())
             .then(ruas => {
-                ruaSelect.innerHTML = ''; 
+                ruaSelect.innerHTML = '';
                 ruas.forEach(rua => {
                     const option = document.createElement('option');
                     option.value = rua;
@@ -16,7 +17,13 @@ function atualizarRuas() {
                     ruaSelect.appendChild(option);
                 });
             });
-    });
+    }
+
+    // Chama a função para preencher o dropdown ao carregar a página
+    buscarRuasEPreencher();
+
+    // Adiciona o event listener para atualizar as ruas quando o bairro mudar
+    bairroSelect.addEventListener('change', buscarRuasEPreencher);
 }
 
 // Função para enviar o formulário com AJAX
