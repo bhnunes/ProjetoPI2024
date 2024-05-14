@@ -10,8 +10,6 @@ cryptography==42.0.7
 cycler==0.12.1
 et-xmlfile==1.1.0
 Flask==3.0.2
-Flask-DB2==0.0.10
-Flask-MySQLdb==2.0.0
 folium==0.16.0
 fonttools==4.51.0
 idna==3.7
@@ -21,7 +19,6 @@ jsonify==0.5
 kiwisolver==1.4.5
 MarkupSafe==2.1.5
 matplotlib==3.8.4
-mysqlclient==2.2.4
 numpy==1.26.4
 openpyxl==3.1.2
 packaging==24.0
