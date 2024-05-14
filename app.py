@@ -4,11 +4,14 @@ import os
 import secrets
 import folium
 from wordcloud import WordCloud
-import plotly.express as px
 import base64
 from io import BytesIO
 import random
 import pymysql
+import matplotlib
+matplotlib.use('Agg')  # Define o backend como 'Agg'
+import matplotlib.pyplot as plt
+import numpy as np
 
 load_dotenv()
 
@@ -35,6 +38,12 @@ def open_conn():
 
 def blue_red_color_func(word, font_size, position, orientation, random_state=None, **kwargs):
     return "hsl(200, 80%%, %d%%)" % random.randint(40, 60)
+
+
+# Função para calcular porcentagem e valor absoluto
+def func(pct, allvals):
+    absolute = int(np.round(pct/100.*np.sum(allvals)))
+    return f"{pct:.1f}%\n({absolute:d})" 
 
 def gerar_dados_dashboard():
     try:
@@ -76,7 +85,7 @@ def gerar_dados_dashboard():
             # Tabela com os últimos 5 casos
             latest_cases = sorted(data, key=lambda x: x['CREATED_AT'], reverse=True)[:5]
 
-            # Gráfico de barras
+            # Gráfico
             complaint_counts = {}
             for element in data:
                 complaint_type=element['TIPO_RECLAMACAO']
@@ -88,19 +97,54 @@ def gerar_dados_dashboard():
             complaint_values = [item[1] for item in sorted_counts]
 
             
-            fig_bar = px.bar(x=complaint_types, y=complaint_values,
-                        text=complaint_values)
+            # Cria o gráfico de pizza
+            fig, ax = plt.subplots(figsize=(9, 4), subplot_kw=dict(aspect="equal"))
+            wedges, texts, autotexts = ax.pie(complaint_values, autopct=lambda pct: func(pct, complaint_values),
+                                            textprops=dict(color="w"))
+            
+                        # Define as cores para cada fatia do gráfico
+            cores = ['#a9191b', '#b23032', '#ba4749', '#c35e5f', '#cb7576','#d48c8d','#dda3a4','#e5babb']
+            for i, wedge in enumerate(wedges):
+                wedge.set_facecolor(cores[i % len(cores)])  # Define a cor da fatia
+            
+                        # Cria a legenda
+            ax.legend(wedges, complaint_types,
+                    title="Tipos de Reclamação",
+                    loc="center left",
+                    bbox_to_anchor=(1, 0, 0.5, 1))
+            
+            plt.setp(autotexts, size=8, weight="bold")
 
-            fig_bar.update_layout(
-            title_x=0.5,
-            xaxis_title="",  # Remove o título do eixo x
-            yaxis_title="",  # Remove o título do eixo y
-            plot_bgcolor='white',  # Define o fundo do gráfico para branco
-            xaxis_tickangle=-45,  # Rotaciona os labels do eixo x
-            yaxis_tickvals=[]
-            )
 
-            fig_bar.update_traces(marker_color='#008CBA',textposition='auto', textfont_size=20, textfont_weight='bold')  # Estilo do texto
+
+            # plt.figure(figsize=(5, 4))  # Define o tamanho da figura
+            # bars = plt.bar(complaint_types, complaint_values, color='#008CBA')
+            # plt.xlabel('')  # Remove o título do eixo x
+            # plt.ylabel('')  # Remove o título do eixo y
+            # plt.xticks([])  # Rotaciona os labels do eixo x
+            # plt.yticks([])  # Remove os ticks do eixo y
+
+
+            # # Cria as legendas com cores correspondentes
+            # for bar, value, cor in zip(bars, complaint_values, cores):
+            #     plt.text(bar.get_x() + bar.get_width() / 2,
+            #             value,
+            #             str(value),
+            #             ha='center',
+            #             va='top',
+            #             fontweight='bold',
+            #             fontsize=10,
+            #             color=cor) # Define a cor do texto
+
+
+            # Converte o gráfico para bytes
+            buffer = BytesIO()
+            plt.savefig(buffer, format='png', transparent=True)
+            buffer.seek(0)
+            plot_pie = base64.b64encode(buffer.getvalue()).decode('utf-8')
+            plt.clf()  # Limpa a figura para evitar sobreposição em chamadas futuras
+
+            
         else:
             sem_dados=True
             mapa = folium.Map(location=[-22.7392383,-47.3355843], zoom_start=10)
@@ -110,9 +154,9 @@ def gerar_dados_dashboard():
                 image_bytes = f.read()
             wordcloud_image = base64.b64encode(image_bytes).decode()
             latest_cases=None 
-            fig_bar=None
+            plot_pie=None
 
-        return mapa, wordcloud_image, latest_cases, fig_bar, sem_dados
+        return mapa, wordcloud_image, latest_cases, plot_pie, sem_dados
     except Exception as e:
         raise ValueError('Could not execute function gerar_dados_dashboard - Error '+str(e))
     finally:
@@ -186,7 +230,7 @@ def dashboard():
                                 mapa=mapa._repr_html_(),
                                 wordcloud_image=wordcloud_image,
                                 latest_cases=latest_cases,
-                                plot_bar=fig_bar.to_html(full_html=True))
+                                plot_bar=fig_bar)
         else:
             return render_template('dashboard.html', 
                 mapa=mapa._repr_html_(),
