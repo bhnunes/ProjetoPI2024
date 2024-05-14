@@ -5,7 +5,6 @@ import secrets
 import folium
 from wordcloud import WordCloud
 import plotly.express as px
-import pandas as pd
 import base64
 from io import BytesIO
 import random
@@ -48,16 +47,16 @@ def gerar_dados_dashboard():
         data = cursor.fetchall()
 
         # Mapa de calor
-        df = pd.DataFrame(data, columns=['RUA', 'BAIRRO', 'TIPO_RECLAMACAO', 'COMENTARIO', 'CREATED_AT', 'LATITUDE', 'LONGITUDE'])
+        latitudes = [row['LATITUDE'] for row in data]
+        longitudes = [row['LONGITUDE'] for row in data]
 
-        if len(df)>0:
+        if len(latitudes)>0:
             sem_dados=False
-            mapa = folium.Map(location=[df['LATITUDE'].mean(), df['LONGITUDE'].mean()], zoom_start=10)
-        
-            for _, row in df.iterrows():
+            mapa = folium.Map(location=[sum(latitudes)/len(latitudes), sum(longitudes)/len(longitudes)], zoom_start=10)
+            for row in data:
                 folium.Marker(
                     location=[row['LATITUDE'], row['LONGITUDE']],
-                    popup=f"<center><b>Tipo:</b> {row['TIPO_RECLAMACAO']}<br><b>Comentário:</b> {row['COMENTARIO']}</center>",
+                    popup=f"Tipo: {row['TIPO_RECLAMACAO']}Comentário: {row['COMENTARIO']}",
                     tooltip=row['BAIRRO']
                 ).add_to(mapa)
 
@@ -67,9 +66,7 @@ def gerar_dados_dashboard():
             for comentario in data:
                 lista_Comentario.append(comentario['COMENTARIO'])
             text = " ".join(lista_Comentario)
-
             wordcloud = WordCloud(background_color="white", width=500, height=300, color_func=blue_red_color_func).generate(text)
-        
             # Converter a imagem para bytes
             image_bytes = BytesIO()
             wordcloud.to_image().save(image_bytes, format='PNG')
@@ -77,7 +74,7 @@ def gerar_dados_dashboard():
             wordcloud_image = base64.b64encode(image_bytes.getvalue()).decode()
 
             # Tabela com os últimos 5 casos
-            latest_cases = df.sort_values(by='CREATED_AT', ascending=False).head(5).to_dict('records')
+            latest_cases = sorted(data, key=lambda x: x['CREATED_AT'], reverse=True)[:5]
 
             # Gráfico de barras
             complaint_counts = {}
