@@ -115,28 +115,6 @@ def gerar_dados_dashboard():
             
             plt.setp(autotexts, size=8, weight="bold")
 
-
-
-            # plt.figure(figsize=(5, 4))  # Define o tamanho da figura
-            # bars = plt.bar(complaint_types, complaint_values, color='#008CBA')
-            # plt.xlabel('')  # Remove o título do eixo x
-            # plt.ylabel('')  # Remove o título do eixo y
-            # plt.xticks([])  # Rotaciona os labels do eixo x
-            # plt.yticks([])  # Remove os ticks do eixo y
-
-
-            # # Cria as legendas com cores correspondentes
-            # for bar, value, cor in zip(bars, complaint_values, cores):
-            #     plt.text(bar.get_x() + bar.get_width() / 2,
-            #             value,
-            #             str(value),
-            #             ha='center',
-            #             va='top',
-            #             fontweight='bold',
-            #             fontsize=10,
-            #             color=cor) # Define a cor do texto
-
-
             # Converte o gráfico para bytes
             buffer = BytesIO()
             plt.savefig(buffer, format='png', transparent=True)
